@@ -1,0 +1,33 @@
+name: Employee App CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Backend Dependencies
+        run: |
+          cd backend
+          npm install
+
+      - name: Build Backend Docker Image
+        run: docker build -t employee-app-backend ./backend
+
+      - name: Build Frontend Docker Image
+        run: docker build -t employee-app-frontend ./frontend
