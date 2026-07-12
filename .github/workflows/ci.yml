@@ -58,3 +58,15 @@ jobs:
       # Step 9 - Success Message
       - name: Build Completed
         run: echo "CI Pipeline Completed Successfully!"
+
+      # Step 10 - Deploy to EC2
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/employee-app
+            docker compose pull
+            docker compose up -d
